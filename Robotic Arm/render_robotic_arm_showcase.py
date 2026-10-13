@@ -67,17 +67,21 @@ glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(130))
 base_bg = Image.alpha_composite(base_bg, glow_layer)
 
 # Video Sources from media/
-MEDIA_DIR = os.path.join(OUTPUT_DIR, 'media')
-V_BENCH = os.path.join(MEDIA_DIR, 'WhatsApp Video 2026-10-10 at 12.00.06 AM.mp4')
-V_BLOCKS = os.path.join(MEDIA_DIR, 'WhatsApp Video 2026-10-10 at 12.01.07 AM.mp4')
-V_DYNAMIC = os.path.join(MEDIA_DIR, 'WhatsApp Video 2026-10-10 at 12.01.06 AM.mp4')
+ENHANCED_CLIPS_DIR = os.path.join(OUTPUT_DIR, 'enhanced_clips')
+V_PICK_PLACE = os.path.join(ENHANCED_CLIPS_DIR, 'robotic_arm_clip_01_pick_and_place.mp4')
+V_MACRO = os.path.join(ENHANCED_CLIPS_DIR, 'robotic_arm_clip_02_macro_gripper_precision.mp4')
+V_KINEMATICS = os.path.join(ENHANCED_CLIPS_DIR, 'robotic_arm_clip_03_6axis_kinematic_articulation.mp4')
+V_REAL_TESTBENCH = os.path.join(ENHANCED_CLIPS_DIR, 'robotic_arm_clip_04_real_testbench_prototype.mp4')
 
-cap_bench = cv2.VideoCapture(V_BENCH)
-cap_blocks = cv2.VideoCapture(V_BLOCKS)
-cap_dynamic = cv2.VideoCapture(V_DYNAMIC)
-bench_fc = int(cap_bench.get(cv2.CAP_PROP_FRAME_COUNT))
-blocks_fc = int(cap_blocks.get(cv2.CAP_PROP_FRAME_COUNT))
-dynamic_fc = int(cap_dynamic.get(cv2.CAP_PROP_FRAME_COUNT))
+cap_real = cv2.VideoCapture(V_REAL_TESTBENCH)
+cap_kin = cv2.VideoCapture(V_KINEMATICS)
+cap_pick = cv2.VideoCapture(V_PICK_PLACE)
+cap_macro = cv2.VideoCapture(V_MACRO)
+
+real_fc = int(cap_real.get(cv2.CAP_PROP_FRAME_COUNT))
+kin_fc = int(cap_kin.get(cv2.CAP_PROP_FRAME_COUNT))
+pick_fc = int(cap_pick.get(cv2.CAP_PROP_FRAME_COUNT))
+macro_fc = int(cap_macro.get(cv2.CAP_PROP_FRAME_COUNT))
 
 def get_video_frame(cap, frame_idx, total_count):
     if total_count <= 0:
@@ -455,8 +459,8 @@ def render_frame(f_idx):
         ease_slide = ease_out_cubic(min(1.0, local_f / 26.0))
         card_x = int(-500 + (100 - -500) * ease_slide)
 
-        # Embedded Video: Testbench picking footage (Audio completely stripped, servo SFX active)
-        vframe = get_video_frame(cap_bench, local_f, bench_fc)
+        # Embedded Video: Real prototype testbench (silent, 16:9 centered crop)
+        vframe = get_video_frame(cap_real, local_f, real_fc)
         embed_crystal_video_frame(
             canvas,
             vframe,
@@ -570,8 +574,8 @@ def render_frame(f_idx):
 
         canvas.alpha_composite(j_card, (100, 510))
 
-        # Lower Right: Real Dynamic Articulation Video
-        vframe_dyn = get_video_frame(cap_dynamic, local_f, dynamic_fc)
+        # Lower Right: AI-Enhanced Kinematic Articulation Video
+        vframe_dyn = get_video_frame(cap_kin, local_f, kin_fc)
         embed_crystal_video_frame(
             canvas,
             vframe_dyn,
@@ -590,13 +594,16 @@ def render_frame(f_idx):
         ease_slide = ease_out_cubic(min(1.0, local_f / 26.0))
         card_x = int(-500 + (100 - -500) * ease_slide)
 
-        # Right video card: manipulating colored blocks (Landscape 720p footage)
-        vframe_blocks = get_video_frame(cap_blocks, local_f, blocks_fc)
+        # Right video card: AI-Enhanced Studio Pick & Place and Macro Grasp
+        if local_f < 200:
+            vframe_blocks = get_video_frame(cap_pick, local_f, pick_fc)
+        else:
+            vframe_blocks = get_video_frame(cap_macro, local_f - 200, macro_fc)
         embed_crystal_video_frame(
             canvas,
             vframe_blocks,
             (1120, 110, 1820, 950),
-            hud_text='OBJECT MANIPULATION ROUTINE',
+            hud_text='AUTONOMOUS PICK & PLACE',
             f_idx=local_f
         )
 
@@ -734,9 +741,10 @@ def main():
             proc.stdin.close()
         proc.wait()
 
-    cap_bench.release()
-    cap_blocks.release()
-    cap_dynamic.release()
+    cap_real.release()
+    cap_kin.release()
+    cap_pick.release()
+    cap_macro.release()
 
     if os.path.exists(OUTPUT_VIDEO):
         v_size_mb = os.path.getsize(OUTPUT_VIDEO) / (1024 * 1024)
