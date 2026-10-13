@@ -51,6 +51,15 @@ Videos/
 │   ├── videos-sentinel/                      # Raw demonstration clips
 │   └── render_sentinel_crystal.py            # Automated render script
 │
+├── Document-Synapsense/
+│   ├── .agent/rules/                         # Document, PDF & resume rules
+│   ├── .agent/skills/                        # PDF engine, note transcription & human copy
+│   ├── scripts/                              # html_to_pdf.py & md_to_pdf.py Edge headless compilers
+│   ├── templates/                            # Executive dossiers, resumes & Cornell note templates
+│   ├── samples/                              # Pre-compiled high-DPI vector PDFs
+│   ├── CONTEXT.md                            # Document AI operating manual
+│   └── README.md                             # Document suite guide
+│
 ├── CONTEXT.md                                # Context ingestion guide for new AI sessions
 └── README.md                                 # This file
 ```

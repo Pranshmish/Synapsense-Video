@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Engineering Resume</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm 12mm 15mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.35;
+      color: #1E293B;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .name-header {
+      text-align: center;
+      border-bottom: 2px solid #0F172A;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    .name {
+      font-size: 19pt;
+      font-weight: 800;
+      color: #0B0F19;
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+
+    .contact-line {
+      font-size: 8.8pt;
+      color: #475569;
+      margin-top: 4px;
+    }
+
+    .contact-line a {
+      color: #0284C7;
+      text-decoration: none;
+    }
+
+    .section-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0F172A;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #CBD5E1;
+      padding-bottom: 2px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      break-after: avoid;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 9.5pt;
+      color: #0F172A;
+    }
+
+    .item-sub {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.8pt;
+      color: #475569;
+      font-style: italic;
+      margin-bottom: 3px;
+    }
+
+    ul {
+      margin: 2px 0 6px 0;
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 2px;
+      color: #334155;
+    }
+
+    .skills-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+      margin-top: 4px;
+    }
+
+    .skills-table td {
+      padding: 2px 4px;
+      vertical-align: top;
+    }
+
+    .skills-label {
+      font-weight: 700;
+      color: #0F172A;
+      width: 130px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="name-header">
+    <div class="name">EMBEDDED & PHYSICAL AI ENGINEER</div>
+    <div class="contact-line">
+      <span>portfolio: <a href="https://synapsense.site">synapsense.site</a></span> &bull; 
+      <span>email: engineer@synapsense.site</span> &bull; 
+      <span>github: github.com/Pranshmish</span> &bull; 
+      <span>location: India</span>
+    </div>
+  </div>
+
+  <div class="section-title">Technical Skills</div>
+  <table class="skills-table">
+    <tr>
+      <td class="skills-label">Languages:</td>
+      <td>C, C++ (C++17/20), Python (NumPy, PyTorch, OpenCV), Assembly, Rust, SQL</td>
+    </tr>
+    <tr>
+      <td class="skills-label">Embedded & RTOS:</td>
+      <td>FreeRTOS, ESP-IDF, ARM Cortex-M, STM32, ESP32, Timers/PWM, I2C, SPI, UART, CAN Bus</td>
+    </tr>
+    <tr>
+      <td class="skills-label">Robotics & AI:</td>
+      <td>Inverse Kinematics (DH Parameters), S-Curve Trajectory Profiling, Edge AI Vision, ONNX Runtime</td>
+    </tr>
+    <tr>
+      <td class="skills-label">Tools & Protocols:</td>
+      <td>Git, Docker, CMake, Linux, Logic Analyzers, Oscilloscopes, KiCad PCB Design</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Key Engineering Projects</div>
+
+  <div class="item-header">
+    <span>6-DOF Autonomous Robotic Manipulator (Physical AI Platform)</span>
+    <span>2026</span>
+  </div>
+  <div class="item-sub">
+    <span>Lead Embedded & Kinematics Engineer | FreeRTOS, ESP32, C/C++, Analytical IK</span>
+    <span>synapsense.site</span>
+  </div>
+  <ul>
+    <li>Architected an embedded 6-DOF robotic manipulator running FreeRTOS with microsecond hardware PWM determinism at 50 Hz.</li>
+    <li>Engineered a closed-form analytical Inverse Kinematics solver in C, achieving sub-15ms convergence and zero singularity lockup.</li>
+    <li>Implemented cubic spline S-curve trajectory profiling with acceleration clamping, eliminating joint inertia oscillations.</li>
+    <li>Integrated dual-gear mechanical claw with optical vision feedback for autonomous pick-and-place colored block manipulation.</li>
+  </ul>
+
+  <div class="item-header">
+    <span>Project Sentinel — Autonomous Edge AI Telemetry System</span>
+    <span>2026</span>
+  </div>
+  <div class="item-sub">
+    <span>Embedded Firmware & Edge AI Architect | Dual-Core MCU, On-Device Inference</span>
+    <span>synapsense.site</span>
+  </div>
+  <ul>
+    <li>Engineered a cloud-free Edge AI multi-sensor telemetry platform executing on-device optical inference in under 28ms.</li>
+    <li>Structured FreeRTOS dual-core pipeline: Core 0 dedicated to sensor fusion and Core 1 executing hardware I/O and telemetry streaming.</li>
+    <li>Designed low-power sleep modes achieving 85% energy reduction during idle monitoring intervals.</li>
+  </ul>
+
+  <div class="section-title">Education</div>
+  <div class="item-header">
+    <span>Bachelor of Technology in Electronics / Computer Engineering</span>
+    <span>2022 – 2026</span>
+  </div>
+  <div class="item-sub">
+    <span>MMMUT / Engineering University</span>
+    <span>First Class with Distinction</span>
+  </div>
+
+</body>
+</html>

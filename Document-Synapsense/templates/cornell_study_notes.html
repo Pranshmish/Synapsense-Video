@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cornell Study Notes Template</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]});"></script>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 15mm;
+      @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 8.5pt;
+        color: #94A3B8;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.5;
+      color: #0F172A;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .topic-header {
+      border-bottom: 2px solid #0284C7;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .topic-title {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #0B0F19;
+      margin: 0;
+    }
+
+    .cornell-layout {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 16px;
+      border-top: 1px solid #CBD5E1;
+      padding-top: 12px;
+    }
+
+    .cues-column {
+      border-right: 2px solid #E2E8F0;
+      padding-right: 12px;
+    }
+
+    .cue-item {
+      margin-bottom: 18px;
+      break-inside: avoid;
+    }
+
+    .cue-title {
+      font-weight: 700;
+      color: #0284C7;
+      font-size: 9pt;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .notes-column {
+      padding-left: 6px;
+    }
+
+    .note-block {
+      margin-bottom: 18px;
+      break-inside: avoid;
+    }
+
+    .formula-box {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-left: 4px solid #16A34A;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+
+    .summary-box {
+      margin-top: 20px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 6px;
+      padding: 12px 16px;
+      break-inside: avoid;
+    }
+
+    .summary-title {
+      font-weight: 800;
+      color: #1D4ED8;
+      font-size: 10pt;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topic-header">
+    <h1 class="topic-title">Kinematics & Denavit-Hartenberg (DH) Formulations</h1>
+    <div style="font-size: 8.8pt; color: #64748B; margin-top: 2px;">Subject: Robotics Engineering &bull; Unit: Forward & Inverse Kinematics</div>
+  </div>
+
+  <div class="cornell-layout">
+    <div class="cues-column">
+      <div class="cue-item">
+        <div class="cue-title">Core Principle</div>
+        <div style="font-size: 8.5pt; color: #64748B;">Why DH frames are standard for serial manipulators.</div>
+      </div>
+      <div class="cue-item" style="margin-top: 40px;">
+        <div class="cue-title">Parameters</div>
+        <div style="font-size: 8.5pt; color: #64748B;">$\theta_i, d_i, a_i, \alpha_i$ definitions.</div>
+      </div>
+      <div class="cue-item" style="margin-top: 70px;">
+        <div class="cue-title">Singularities</div>
+        <div style="font-size: 8.5pt; color: #64748B;">$\det(J(\theta)) = 0$ geometric locking.</div>
+      </div>
+    </div>
+
+    <div class="notes-column">
+      <div class="note-block">
+        <h3 style="margin: 0 0 4px 0; color: #0F172A; font-size: 11pt;">1. Forward Kinematic Transform</h3>
+        <p>The position and orientation of the end-effector with respect to the base frame is determined by successive homogenous transformation matrices:</p>
+        <div class="formula-box">
+          $$^{i-1}T_i = \begin{bmatrix} \cos\theta_i & -\sin\theta_i\cos\alpha_i & \sin\theta_i\sin\alpha_i & a_i\cos\theta_i \\ \sin\theta_i & \cos\theta_i\cos\alpha_i & -\cos\theta_i\sin\alpha_i & a_i\sin\theta_i \\ 0 & \sin\alpha_i & \cos\alpha_i & d_i \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+        </div>
+      </div>
+
+      <div class="note-block">
+        <h3 style="margin: 0 0 4px 0; color: #0F172A; font-size: 11pt;">2. Analytical vs Numerical Inverse Kinematics</h3>
+        <p>For embedded microcontrollers (ESP32 / ARM Cortex-M), analytical closed-form solvers are preferred over iterative Jacobian inversion because they run in $O(1)$ constant time ($\le 15\text{ ms}$) without convergence divergence.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">Summary & Key Takeaway</div>
+    <p style="margin: 0; color: #1E3A8A; font-size: 9.2pt;">Analytical kinematics eliminate unbounded iteration loops in RTOS tasks. Pair DH joint matrices with cubic Hermite splines to suppress acceleration spikes and gear train stress.</p>
+  </div>
+
+</body>
+</html>

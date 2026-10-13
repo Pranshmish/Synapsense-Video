@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SynapseSense — Technical Executive Dossier</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 16mm 18mm 18mm 18mm;
+      @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 8pt;
+        color: #94A3B8;
+      }
+      @bottom-left {
+        content: "CONFIDENTIAL — SYNAPSENSE ENGINEERING (synapsense.site)";
+        font-size: 8pt;
+        color: #94A3B8;
+        font-weight: 600;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.5;
+      color: #0F172A;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0284C7;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brand-title {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0B0F19;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+
+    .brand-sub {
+      font-size: 10pt;
+      color: #0284C7;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .meta-tag {
+      text-align: right;
+      font-size: 8.5pt;
+      color: #64748B;
+    }
+
+    .meta-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #E0F2FE;
+      color: #0284C7;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 8pt;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+
+    .kpi-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .kpi-val {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0284C7;
+      margin-bottom: 2px;
+    }
+
+    .kpi-label {
+      font-size: 8pt;
+      color: #64748B;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 12.5pt;
+      font-weight: 700;
+      color: #0F172A;
+      border-bottom: 1px solid #E2E8F0;
+      padding-bottom: 4px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      break-after: avoid;
+    }
+
+    .pitch-box {
+      background: #F0FDF4;
+      border-left: 4px solid #10B981;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 14px;
+      break-inside: avoid;
+    }
+
+    .pitch-box p {
+      margin: 0;
+      font-style: italic;
+      color: #14532D;
+      font-size: 9.5pt;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 9pt;
+      break-inside: avoid;
+    }
+
+    th, td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #E2E8F0;
+      text-align: left;
+    }
+
+    th {
+      background: #F1F5F9;
+      color: #0F172A;
+      font-weight: 700;
+      border-bottom: 2px solid #CBD5E1;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      break-inside: avoid;
+    }
+
+    .card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .card h4 {
+      margin: 0 0 6px 0;
+      color: #0F172A;
+      font-size: 10pt;
+    }
+
+    ul {
+      margin: 4px 0;
+      padding-left: 18px;
+      color: #334155;
+    }
+
+    li { margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div>
+      <h1 class="brand-title">6-DOF Physical AI Robotic Manipulator</h1>
+      <div class="brand-sub">Autonomous Motion Planning & Real-Time Embedded Control</div>
+    </div>
+    <div class="meta-tag">
+      <div class="meta-badge">PRODUCTION GRADE</div>
+      <div style="margin-top:4px;">Domain: Physical AI / Robotics</div>
+      <div>Platform: FreeRTOS / ESP32</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-val">&lt; 15 ms</div>
+      <div class="kpi-label">IK Convergence</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">50 Hz</div>
+      <div class="kpi-label">PWM Determinism</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">6-DOF</div>
+      <div class="kpi-label">Kinematic Chain</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">100%</div>
+      <div class="kpi-label">On-Device Edge AI</div>
+    </div>
+  </div>
+
+  <div class="section-title">1. Executive Summary & 30-Second Elevator Pitch</div>
+  <div class="pitch-box">
+    <p>"I engineered a 6-DOF physical-AI robotic manipulator for autonomous spatial manipulation and trajectory execution. Running on an embedded 32-bit MCU under real-time FreeRTOS, the architecture coordinates six high-torque metal-gear digital servos through hardware timers at 50 Hz. Featuring an analytical inverse kinematics solver converging in under 15ms and cubic-spline S-curve interpolation, the system achieves sub-millimeter repeatable convergence with zero cloud latency."</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h4>Firmware & Motion Architecture</h4>
+      <ul>
+        <li><strong>FreeRTOS Task Scheduler</strong>: Dedicated 50 Hz motion planning task with microsecond hardware timer determinism.</li>
+        <li><strong>Analytical IK Solver</strong>: Closed-form Denavit-Hartenberg (DH) matrix transformation in &lt;15 ms.</li>
+        <li><strong>S-Curve Trajectory Limiting</strong>: Cubic Hermite splines to suppress joint inertia and prevent mechanical gear lash.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Hardware & Mechatronics</h4>
+      <ul>
+        <li><strong>Actuation</strong>: 6x High-Torque Metal-Gear digital servos mounted on CNC reinforced aluminum alloy brackets.</li>
+        <li><strong>Power Topology</strong>: Dual isolated rails (5V/10A servo bus with transient TVS protection).</li>
+        <li><strong>End-Effector</strong>: Dual-gear compliance claw with proportional gripping telemetry.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">2. Actuation & Joint Telemetry Specifications</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Joint Axis</th>
+        <th>Actuator Type</th>
+        <th>Operating Range</th>
+        <th>Control Interface</th>
+        <th>Torque Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Joint 1 (Base Yaw)</td>
+        <td>Metal-Gear Digital Servo</td>
+        <td>0° to 180°</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>20 kg·cm @ 6.0V</td>
+      </tr>
+      <tr>
+        <td>Joint 2 (Shoulder Pitch)</td>
+        <td>Metal-Gear Digital Servo</td>
+        <td>15° to 165°</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>25 kg·cm @ 6.0V</td>
+      </tr>
+      <tr>
+        <td>Joint 3 (Elbow Pitch)</td>
+        <td>Metal-Gear Digital Servo</td>
+        <td>0° to 170°</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>20 kg·cm @ 6.0V</td>
+      </tr>
+      <tr>
+        <td>Joint 4 (Wrist Pitch)</td>
+        <td>Digital Micro-Servo</td>
+        <td>0° to 180°</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>15 kg·cm @ 6.0V</td>
+      </tr>
+      <tr>
+        <td>Joint 5 (Wrist Roll)</td>
+        <td>Digital Micro-Servo</td>
+        <td>0° to 180°</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>15 kg·cm @ 6.0V</td>
+      </tr>
+      <tr>
+        <td>Joint 6 (End-Effector Claw)</td>
+        <td>Dual-Gear Linear Gripper</td>
+        <td>0 to 55 mm Stroke</td>
+        <td>Hardware PWM (50 Hz)</td>
+        <td>Proportional Compliance</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
