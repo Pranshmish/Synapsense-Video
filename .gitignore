@@ -1,0 +1,11 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary archives (media already extracted in media/ folder)
+*.zip
+
+# OS artifacts
+Thumbs.db
+.DS_Store
