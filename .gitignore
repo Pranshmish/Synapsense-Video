@@ -9,3 +9,8 @@ __pycache__/
 # OS artifacts
 Thumbs.db
 .DS_Store
+
+# Matting scratch
+Robotic Arm/matting_tests/
+Robotic Arm/test_*
+
