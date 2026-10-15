@@ -14,3 +14,11 @@ Thumbs.db
 Robotic Arm/matting_tests/
 Robotic Arm/test_*
 
+
+# Video scratch catalogs and test breakdowns
+Robotic Arm/*catalog*
+Robotic Arm/crop_tests/
+Robotic Arm/media_previews/
+Robotic Arm/video_breakdowns/
+Robotic Arm/test_new_layout.py
+
