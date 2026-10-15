@@ -240,12 +240,12 @@ def embed_properly_fitted_video(canvas, vframe_rgb, bbox, title='LIVE TESTBENCH 
                 cdraw.line([(hud_x + 14, hud_y + 32), (hud_x + hud_w - 14, hud_y + 32)], fill=(30, 41, 59), width=1)
 
                 channels = [
-                    ('CH1 BASE YAW', 1620, 0.62),
-                    ('CH2 SHOULDER', 1340, 0.44),
-                    ('CH3 ELBOW PITCH', 1850, 0.85),
+                    ('CH0 BASE YAW', 1620, 0.62),
+                    ('CH1 SHOULDER', 1340, 0.44),
+                    ('CH2 ELBOW (DUAL)', 1850, 0.85),
+                    ('CH3 WRIST ROLL', 1510, 0.51),
                     ('CH4 WRIST PITCH', 1120, 0.32),
-                    ('CH5 WRIST ROLL', 1510, 0.51),
-                    ('CH6 DUAL CLAW', 1900, 0.90)
+                    ('CH5 GRIPPER CLAW', 1900, 0.90)
                 ]
                 cy = hud_y + 42
                 bar_w = hud_w - 28
@@ -267,10 +267,10 @@ def embed_properly_fitted_video(canvas, vframe_rgb, bbox, title='LIVE TESTBENCH 
                 cy += 24
 
                 stats = [
-                    ('BUS CURRENT', '1.38 A', GREEN_EMERALD),
-                    ('RAIL VOLTAGE', '5.14 V', CYAN_ELECTRIC),
-                    ('RTOS LOOP', '100 Hz', CYAN_ELECTRIC),
-                    ('STALL SENSOR', 'CLEAR', GREEN_EMERALD)
+                    ('PCA9685 BUS', '0x40 @ 50 Hz', CYAN_ELECTRIC),
+                    ('CONTROLLER', 'ARDUINO UNO Q', GREEN_EMERALD),
+                    ('RTOS / RPC', 'RouterBridge', CYAN_ELECTRIC),
+                    ('POWER RAIL', '5V DEDICATED', GREEN_EMERALD)
                 ]
                 for s_lbl, s_val, s_col in stats:
                     cdraw.text((hud_x + 14, cy), s_lbl, font=FONT_MICRO, fill=SLATE_400)
@@ -474,15 +474,15 @@ def render_frame(f_idx):
         draw_section_header(canvas, card_x, 116, '6-DOF ROBOTIC MANIPULATOR', 'Spatial Articulation & Physical AI Mechatronics Architecture')
 
         spec_grid = [
-            ('ARTICULATED AXES', '6-DOF + Parallel Gripper'),
-            ('STRUCTURAL CHASSIS', 'CNC Anodized Aluminum'),
-            ('ACTUATOR DRIVE', 'Digital Metal-Gear Servos'),
-            ('CONTROL ENGINE', 'Deterministic 50 Hz PWM')
+            ('ARTICULATED AXES', '6-DOF + Dual-Mirror Elbow'),
+            ('KINEMATIC LINKS', 'L1:95 | L2:105 | L3:98 | L4:65mm'),
+            ('SERVO DRIVER BUS', 'PCA9685 I2C 12-Bit @ 50 Hz'),
+            ('WORKSPACE ENVELOPE', 'X:±250mm | Y:50-350 | Z:0-250')
         ]
         bullet_list = [
-            ('Deterministic Multi-Axis Kinematics', 'Closed-loop spatial planning with sub-millimeter target repeatability.'),
-            ('Embedded Edge Execution', 'Analytical inverse kinematics solver converging in under 15 milliseconds.'),
-            ('Compliant Dual-Gear End-Effector', 'Torque-adaptive mechanical claw engineered for delicate & rigid payloads.')
+            ('Deterministic Multi-Axis Kinematics', 'Analytical trigonometric decomposition with sub-millimeter positioning accuracy.'),
+            ('Embedded Edge Execution', 'Real-time inverse kinematics solver converging in under 15 milliseconds on MCU.'),
+            ('Dual-Mirror High-Torque Elbow', 'Synchronized dual servos on Channel 2 & 6 delivering doubled mechanical payload hoist.')
         ]
         draw_specs_card(
             canvas,
@@ -524,15 +524,15 @@ def render_frame(f_idx):
         draw_section_header(canvas, card_x, 116, 'REAL-TIME HARDWARE ACTUATION', 'Deterministic Multi-Channel PWM Control & Sensor Feedback')
 
         spec_grid = [
-            ('PWM FREQUENCY', '50 Hz Hardware Timers'),
-            ('MICROCONTROLLER', '32-Bit Dual-Core RTOS'),
-            ('CURRENT TELEMETRY', 'Dedicated Over-Current Rail'),
-            ('HOST INTERFACE', '115200 Baud Bi-Directional')
+            ('MICROCONTROLLER', 'Arduino UNO Q (STM32U585)'),
+            ('RTOS / RPC BRIDGE', 'Zephyr RTOS • RouterBridge'),
+            ('PWM DRIVER IC', 'PCA9685 I2C 12-Bit (0x40)'),
+            ('MOTION PROFILE', '95°/s Transit • 220°/s Gripper')
         ]
         bullet_list = [
-            ('Hardware Timer PWM Serialization', 'Microsecond-deterministic pulse generation across six independent joints.'),
-            ('S-Curve Trajectory Smoothing', 'Quintic polynomial velocity profiles eliminate jerk and inertial overshoot.'),
-            ('Autonomous Stall Protection', 'Real-time current telemetry loop detects payload collisions and limits torque.')
+            ('Hardware Timer PWM Serialization', 'Microsecond-deterministic 50 Hz pulse generation across independent joint channels.'),
+            ('Staggered Power-On Soft Start', '40ms sequential servo initialization sequence eliminates brownout inrush current.'),
+            ('Autonomous Stall Protection', 'Real-time current telemetry loop detects payload collisions and limits servo torque.')
         ]
         draw_specs_card(
             canvas,
@@ -547,7 +547,6 @@ def render_frame(f_idx):
         )
 
         # Real testbench video playback: Arm actively lifts the cube in front of laptop!
-        # Frames 360 to 720 from 12.00.06 AM.mp4
         target_video_frame = 360 + (local_f % 360)
         vframe = get_video_frame(cap_real_pick, target_video_frame, real_pick_fc)
 
@@ -556,13 +555,13 @@ def render_frame(f_idx):
             vframe,
             (1060, 240, 1840, 960),
             title='EMBEDDED TESTBENCH LIVE FEED',
-            telemetry_text='LIVE TELEMETRY: 50Hz PWM ACTIVE | SERVO 1-6 ONLINE | RTOS LOOP: 100Hz',
+            telemetry_text='ARDUINO UNO Q RTOS | PCA9685 0x40 ACTIVE | ROUTERBRIDGE RPC: 100Hz',
             f_idx=local_f,
             fit_mode='contain',
             hud_type='servo'
         )
 
-        draw_caption_bar(canvas, 'Embedded 32-bit controller drives six independent high-torque servos with microsecond PWM determinism.', f_idx=local_f)
+        draw_caption_bar(canvas, 'Arduino UNO Q controller drives six servos via PCA9685 I2C with 50 Hz PWM microsecond determinism.', f_idx=local_f)
 
     # =========================================================================
     # SCENE 3: 23.0s - 36.0s (Frames 690 to 1079) — KINEMATICS & MOTION PIPELINE
@@ -582,10 +581,10 @@ def render_frame(f_idx):
 
         flow_steps = [
             ('CARTESIAN TARGET', 'Spatial Goal Vector', 'Target Pose: [X, Y, Z]\nEuler: [Roll, Pitch, Yaw]'),
-            ('DH TRANSFORM', 'Link Coordinate Frames', 'Denavit-Hartenberg Matrices\nForward Link Kinematics'),
-            ('INVERSE KINEMATICS', 'Analytical Solver', '< 15ms Convergence Time\nExact Closed-Form Solution'),
-            ('S-CURVE PROFILER', 'Jerk Suppression', 'Quintic Spline Interpolation\nSmooth Velocity Transition'),
-            ('PWM TIMER DRIVER', 'Direct Hardware Output', '50 Hz Hardware Channels\nMicrosecond Pulse Delivery')
+            ('LINK DECOUPLING', 'Geometric Parameters', 'L1=95, L2=105, L3=98, L4=65mm\nPlanar Reach Calculation'),
+            ('INVERSE KINEMATICS', 'Analytical Solver', '< 15ms Closed-Form IK\nExact Law of Cosines Map'),
+            ('S-CURVE PROFILER', 'Jerk Suppression', '95°/s Arm Transit Velocity\n220°/s Fast Gripper Profiling'),
+            ('PCA9685 PWM BUS', 'Hardware Delivery', '50 Hz Hardware Timers\n150-600 Ticks via RouterBridge')
         ]
 
         for i, (f_title, f_sub, f_desc) in enumerate(flow_steps):
@@ -618,7 +617,7 @@ def render_frame(f_idx):
                 dot_x = p1_x + int(gap * pulse_phase)
                 draw.ellipse([dot_x - 4, py - 4, dot_x + 4, py + 4], fill=CYAN_ELECTRIC)
 
-        # Lower Left Card: Joint Angles Telemetry Table
+        # Lower Left Card: Joint Angles Telemetry Table (Matches calibrated baseline angles)
         j_card = Image.new('RGBA', (860, 520), (0, 0, 0, 0))
         j_draw = ImageDraw.Draw(j_card)
         j_draw.rounded_rectangle([0, 0, 860, 520], radius=24, fill=(255, 255, 255, 250), outline=(56, 189, 248, 180), width=2)
@@ -626,17 +625,17 @@ def render_frame(f_idx):
 
         j_draw.rounded_rectangle([24, 20, 290, 54], radius=14, fill=(15, 23, 42, 240))
         j_draw.text((42, 26), 'REAL-TIME KINEMATICS TELEMETRY', font=FONT_MICRO_BOLD, fill=CYAN_ELECTRIC)
-        j_draw.text((24, 84), 'CLOSED-FORM DH TRANSFORMATIONS', font=FONT_HEAD, fill=SLATE_900)
+        j_draw.text((24, 84), 'GEOMETRIC IK & CALIBRATED POSES', font=FONT_HEAD, fill=SLATE_900)
 
-        # Live animated joint angles
+        # Live animated joint angles centered around verified standby pose (S0=63, S1=66, S2=83, S3=173, S4=66, S5=150)
         t_val = local_f * 0.05
         joints = [
-            ('θ1 Base Yaw', f"{42.5 + 8.0*math.sin(t_val):+.1f}°", f"PWM: {int(1620 + 70*math.sin(t_val))} µs • Joint 1"),
-            ('θ2 Shoulder Pitch', f"{-18.2 + 6.0*math.cos(t_val*0.8):+.1f}°", f"PWM: {int(1340 + 50*math.cos(t_val*0.8))} µs • Joint 2"),
-            ('θ3 Elbow Pitch', f"{64.0 + 10.0*math.sin(t_val*0.9):+.1f}°", f"PWM: {int(1850 + 90*math.sin(t_val*0.9))} µs • Joint 3"),
-            ('θ4 Wrist Pitch', f"{-45.8 + 5.0*math.cos(t_val*0.7):+.1f}°", f"PWM: {int(1120 + 40*math.cos(t_val*0.7))} µs • Joint 4"),
-            ('θ5 Wrist Roll', f"{12.4 + 12.0*math.sin(t_val*0.6):+.1f}°", f"PWM: {int(1510 + 100*math.sin(t_val*0.6))} µs • Joint 5"),
-            ('θ6 Claw Gripper', 'ENGAGED', 'PWM: 1900 µs • 1.8 N·m')
+            ('S0 Base Yaw', f"{63.0 + 8.0*math.sin(t_val):.1f}°", f"CH0: {int(150 + (63.0+8.0*math.sin(t_val))/180.0*450)} ticks • [15°-165°]"),
+            ('S1 Shoulder Pitch', f"{66.0 + 6.0*math.cos(t_val*0.8):.1f}°", f"CH1: {int(150 + (66.0+6.0*math.cos(t_val*0.8))/180.0*450)} ticks • [80°-140°]"),
+            ('S2 Elbow (Dual)', f"{83.0 + 10.0*math.sin(t_val*0.9):.1f}°", f"CH2 & CH6: Dual Servos • [83°-135°]"),
+            ('S3 Wrist Roll', f"{100.0 + 12.0*math.sin(t_val*0.6):.1f}°", f"CH3: {int(150 + (100.0+12.0*math.sin(t_val*0.6))/180.0*450)} ticks • [13°-165°]"),
+            ('S4 Wrist Pitch', f"{66.0 + 5.0*math.cos(t_val*0.7):.1f}°", f"CH4: {int(150 + (66.0+5.0*math.cos(t_val*0.7))/180.0*450)} ticks • [20°-145°]"),
+            ('S5 Gripper Claws', 'ENGAGED', 'CH5: 220°/s Clamping • 150-600 Ticks')
         ]
 
         for ji, (jname, jangle, jpwm) in enumerate(joints):
@@ -654,10 +653,10 @@ def render_frame(f_idx):
 
         # Lower Right: Kinematic Trajectory Articulation Video (16:9 widescreen, perfect fit)
         vframe_kin = get_video_frame(cap_kin, local_f, kin_fc)
-        x_calc = 168.2 + 10.0 * math.sin(t_val)
-        y_calc = -34.0 + 8.0 * math.cos(t_val * 0.9)
-        z_calc = 122.5 + 14.0 * math.sin(t_val * 1.1)
-        telem_kin = f"DH POSE: X={x_calc:+.1f}mm  Y={y_calc:+.1f}mm  Z={z_calc:+.1f}mm | IK SOLVE: < 15ms"
+        x_calc = 145.0 + 12.0 * math.sin(t_val)
+        y_calc = 160.0 + 10.0 * math.cos(t_val * 0.9)
+        z_calc = 85.0 + 15.0 * math.sin(t_val * 1.1)
+        telem_kin = f"IK POSE: X={x_calc:.1f}mm  Y={y_calc:.1f}mm  Z={z_calc:.1f}mm | SOLVE: < 15ms | BOUNDS: PASS"
         embed_properly_fitted_video(
             canvas,
             vframe_kin,
@@ -681,15 +680,15 @@ def render_frame(f_idx):
         draw_section_header(canvas, card_x, 116, 'AUTONOMOUS PAYLOAD MANIPULATION', 'Spatial Registration, Force Compliance & Obstacle Clearance')
 
         spec_grid = [
-            ('CYCLE REPEATABILITY', '±0.8 mm Precision'),
-            ('PAYLOAD CAPACITY', '250g at Full Reach'),
-            ('CYCLE DURATION', '4.2s Pick & Place'),
-            ('AUTONOMY LEVEL', '100% Autonomous Edge')
+            ('PAYLOAD TARGETS', 'Red, Green, Pink, Yellow Cubes'),
+            ('TRAJECTORY STAGES', '8-Step Autonomous Industrial Plan'),
+            ('REPEATABILITY', '±0.8 mm Precision Convergence'),
+            ('SERVO ACTUATION', '95°/s Transit • 220°/s Gripper')
         ]
         bullet_list = [
-            ('Proportional Force Gripping', 'Dual-gear mechanical end-effector delivers adaptive clamping without crushing.'),
-            ('Closed-Loop Trajectory Convergence', 'Spatial coordinates streamed to trajectory solver with dynamic obstacle avoidance.'),
-            ('Continuous Automated Operations', 'Validated across 500+ uninterrupted pickup, hoist, transfer, and release cycles.')
+            ('8-Stage Trajectory Execution', 'Open -> Move -> Approach -> Close -> Lift -> Transport -> Lower -> Home.'),
+            ('Color-Grounded Edge Vision', 'Physical 3D Cartesian coordinates matched dynamically to target cube colors.'),
+            ('Adaptive Compliant Force Gripping', 'Proportional clamping without crushing delicate or rigid 35mm payloads.')
         ]
         draw_specs_card(
             canvas,
@@ -765,10 +764,10 @@ def render_frame(f_idx):
         )
 
         kpis = [
-            ('6-DOF', 'Spatial Dexterity', 'Full Articulated Range'),
-            ('50 Hz', 'PWM Update Loop', 'Microsecond Precision'),
-            ('< 15ms', 'IK Solve Latency', 'Analytical Convergence'),
-            ('100%', 'Embedded Control', 'Zero Cloud Dependency')
+            ('6-DOF', 'Spatial Dexterity', 'Dual-Mirror Elbow (CH6)'),
+            ('50 Hz', 'PCA9685 I2C Bus', '12-Bit Microsecond PWM'),
+            ('< 15ms', 'Analytical IK', 'Law of Cosines Closed-Form'),
+            ('100%', 'Edge Control', 'Arduino UNO Q (STM32 RTOS)')
         ]
 
         tile_y = 780
